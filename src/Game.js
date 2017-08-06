@@ -46,25 +46,29 @@ class Game extends Component {
 
   playList (audioPlayer, files, playAllPatterns) {
 
-    var index = 1;
+    return new Promise((resolve, rejected) => {
+      var index = 1;
 
-    var playNext = function() {
+      var playNext = function() {
         if(index < files.length) {
-            audioPlayer.src = files[index];
-            audioPlayer.play();
-            index += 1;
+          audioPlayer.src = files[index];
+          audioPlayer.play();
+          index += 1;
         } else {
-            audioPlayer.removeEventListener('ended', playNext, false);
+          audioPlayer.removeEventListener('ended', playNext, false);
+          resolve(true);
         }
-    };
+      };
 
-    audioPlayer.addEventListener('ended', playNext);
-    audioPlayer.src = files[0];
-    if (playAllPatterns === true) {
-      setTimeout(function(){audioPlayer.play();}, 1000);
-    } else {
-      audioPlayer.play();
-    }
+      audioPlayer.addEventListener('ended', playNext);
+      audioPlayer.src = files[0];
+      if (playAllPatterns === true) {
+        setTimeout(function(){audioPlayer.play();}, 1000);
+      } else {
+        audioPlayer.play();
+      }
+    });
+
 
   };
 
@@ -88,10 +92,10 @@ class Game extends Component {
     })
   }
 
-  handlePadClick(num) {
+  async handlePadClick(num) {
     let newCount = this.state.currentCount + 1;
-
-    if(this.checkCorrectPad(num, newCount)){
+    const isCorrectPad = await this.checkCorrectPad(num, newCount);
+    if(isCorrectPad){
 
         if(this.finishCycle(newCount)) {
 
@@ -123,14 +127,14 @@ class Game extends Component {
     }
   }
 
-  checkCorrectPad(num, newCount) {
+  async checkCorrectPad(num, newCount) {
 
 
     var audioPlayer = new Audio();
     var file=[];
     if (parseInt(num, 10) !== this.state.currentPattern[this.state.currentCount]) {
       file = ["http://www.wavsource.com/snds_2017-07-30_6786517629734627/sfx/thunk.wav"];
-      this.playList(audioPlayer, file);
+      await this.playList(audioPlayer, file);
 
       this.setState({
         currentCount: 0,
@@ -140,8 +144,7 @@ class Game extends Component {
 
     } else {
       file = [soundTracks[num]];
-      this.playList(audioPlayer, file);
-
+      await this.playList(audioPlayer, file);
 
       this.setState({
         currentCount: newCount,

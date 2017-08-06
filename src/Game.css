@@ -1,0 +1,103 @@
+h1 {
+  background-color: papayawhip;
+  margin-bottom: 60px !important;
+  margin-top: -100px !important;
+  font-family: fantasy !important;
+  font-weight: bold !important;
+  font-size: 70px !important;
+}
+
+#pad {
+  width: 250px;
+  height: 250px;
+  cursor: pointer;
+  border-radius: 10px;
+}
+
+#onOffButton {
+  border-radius: 5px;
+  display: flex;
+  cursor: pointer;
+  justify-content: center;
+}
+
+#onOffButton:active {
+  outline: none;
+  border-color: #9ecaed;
+  box-shadow: 0 0 5px 5px #9ecaed;
+}
+
+
+#startButton {
+  border-radius: 50%;
+  height: 28px;
+  width: 15px;
+  display: flex;
+  cursor: pointer;
+  margin-left: 5px;
+  background-color: mediumseagreen;
+}
+
+#startButton:hover {
+  background-color: green;
+}
+
+#startButton:active {
+  outline: none;
+  border-color: #9ecaed;
+  box-shadow: 0 0 5px 5px #9ecaed;
+}
+
+#startWrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+#strictButton {
+  border-radius: 50%;
+  height: 28px;
+  width: 15px;
+  display: flex;
+  cursor: pointer;
+  margin-left: 5px;
+  background-color: #de7d9c;
+}
+
+#strictButton:hover {
+  background-color: #c16382;
+}
+
+#strictButton:active {
+  outline: none;
+  border-color: #9ecaed;
+  box-shadow: 0 0 5px 5px #9ecaed;
+}
+
+.mainContainer {
+  display: flex;
+  width: 100%;
+  height: 850px;
+  justify-content: center;
+  flex-flow: column;
+  align-items: center;
+  background-color: papayawhip;
+}
+
+.controlPanel {
+  position: absolute;
+  display: flex;
+  flex-flow: column;
+  background-color: peachpuff;
+  width: 200px;
+  height: 200px;
+  top: auto;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  contain: strict;
+}
+
+.boardContainer {
+  position: relative;
+}

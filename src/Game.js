@@ -44,30 +44,19 @@ class Game extends Component {
 
   }
 
-  playList (audioPlayer, files, playAllPatterns) {
+  playMusic(audioPlayer, file) {
+    return new Promise( resolve => {
+      audioPlayer.src = file;
+      audioPlayer.addEventListener('ended', () => resolve(true));
+      audioPlayer.play();
+    })
+  }
 
-    return new Promise((resolve, rejected) => {
-      var index = 1;
+  async playList (audioPlayer, files, playAllPatterns) {
 
-      var playNext = function() {
-        if(index < files.length) {
-          audioPlayer.src = files[index];
-          audioPlayer.play();
-          index += 1;
-        } else {
-          audioPlayer.removeEventListener('ended', playNext, false);
-          resolve(true);
-        }
-      };
-
-      audioPlayer.addEventListener('ended', playNext);
-      audioPlayer.src = files[0];
-      if (playAllPatterns === true) {
-        setTimeout(function(){audioPlayer.play();}, 1000);
-      } else {
-        audioPlayer.play();
+      for (let i = 0; i < files.length; i++) {
+        await this.playMusic(audioPlayer, files[i]);
       }
-    });
 
 
   };
@@ -176,7 +165,7 @@ class Game extends Component {
   }
 
   render() {
-
+    console.log(this.state.currentPattern);
     return (
       <div>
 

@@ -7,11 +7,41 @@ h1 {
   font-size: 70px !important;
 }
 
-#pad {
+.pad {
   width: 250px;
   height: 250px;
   cursor: pointer;
   border-radius: 10px;
+}
+
+#pad0:hover, #pad0:active {
+  background: #fa0067 !important;
+  outline: none;
+  border-color: #9ecaed;
+  box-shadow: 0 0 2px 2px #9ecaed;
+  border-right-width: 3px !important;
+}
+
+#pad1:hover, #pad1:active {
+  background: #ffa104 !important;
+  outline: none;
+  border-color: #9ecaed;
+  box-shadow: 0 0 2px 2px #9ecaed;
+}
+
+#pad2:hover, #pad2:active {
+  background: #38cc8f !important;
+  outline: none;
+  border-color: #9ecaed;
+  box-shadow: 0 0 2px 2px #9ecaed;
+  border-right-width: 3px !important;
+}
+
+#pad3:hover, #pad3:active {
+  background: #3875cc !important;
+  outline: none;
+  border-color: #9ecaed;
+  box-shadow: 0 0 2px 2px #9ecaed;
 }
 
 #onOffButton {
@@ -72,6 +102,20 @@ h1 {
   outline: none;
   border-color: #9ecaed;
   box-shadow: 0 0 5px 5px #9ecaed;
+}
+
+.card {
+  background-color: #393833 !important;
+  border-color: ##393833 !important;
+  margin-bottom: 10px;
+}
+
+.card-title {
+  font-size: 20px !important;
+}
+
+.card-block {
+  padding: 0.5rem !important;
 }
 
 .mainContainer {

@@ -30,14 +30,6 @@ export class Board extends Component {
     let bottomLeftId = "pad2";
     let bottomRightId = "pad3";
 
-    // if(this.props.classHighlight.length > 0) {
-    //   var addId = "-" + this.props.classHighlight;
-    //   topLeftId += addId;
-    //   topRightId += addId;
-    //   bottomLeftId += addId;
-    //   bottomRightId += addId;
-    // }
-
     return (
       <div>
       <div >
@@ -49,12 +41,7 @@ export class Board extends Component {
         <Pad value="3" id={bottomRightId} color={this.props.highlightPad === 3 ? colorCollection[3][1] : colorCollection[3][0]} onClick={() => this.props.onClick("3")} disableControls={this.props.disableControls}/>
         </div>
       </div>
-      // <section>
-      //   <div className></div>
-      //   <div></div>
-      //   <div></div>
-      //   <div></div>
-      // </section>
+
     );
   }
 }

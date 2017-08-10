@@ -17,9 +17,9 @@ class Game extends Component {
       disableControls: true,
       currentLevel: 0,
       highlightPad: -1,
-      // classHighlight: "",
+  
     }
-    //this.pads =["pad0", "pad1", "pad2", "pad3"];
+
     this.winnerCount = 20;
   }
 
@@ -123,12 +123,6 @@ class Game extends Component {
 
         await this.setTimeoutPromise();
 
-
-        // if(highlight !== null) {
-        //   let currentColor = this.pads[highlight[i]];
-        //   await this.toggle(currentColor);
-        // }
-
       }
 
 
@@ -220,36 +214,6 @@ class Game extends Component {
       return 0;
     }
   }
-//   async toggle(str) {
-//       await this.toggleHighlight(str);
-//       setTimeout(this.toggleHighlight.bind(this, "highlight"), 1000);
-//   }
-//
-// //toggle between highlight and no highlight
-//   toggleHighlight(str) {
-//     return new Promise( resolve => {
-//       if(str.includes("highlight")) {
-//         str = str.replace(/highlight[0-9]/,"");
-//       } else {
-//         if(str.includes("pad0")) {
-//           str = "highlight0";
-//         } else if(str.includes("pad1")) {
-//           str = "highlight1";
-//         } else if(str.includes("pad2")) {
-//           str = "highlight2";
-//         } else if(str.includes("pad3")) {
-//           str = "highlight3";
-//         }
-//       }
-//
-//       resolve(
-//         this.setState({
-//           classHighlight: str,
-//         })
-//       )
-//     })
-//
-//   }
 
   render() {
     console.log(this.state.currentPattern);
@@ -281,7 +245,6 @@ const soundTracks = ["https://s3.amazonaws.com/freecodecamp/simonSound1.mp3",
                      "https://s3.amazonaws.com/freecodecamp/simonSound3.mp3",
                      "https://s3.amazonaws.com/freecodecamp/simonSound4.mp3"];
 
-//const padColor = [["#ff4793","#fa0067"],["#ffb437","#ffa104"],["#47ffb3","#38cc8f"],["#4793ff","#3875cc"]];
 
 
 export default Game;

@@ -16,10 +16,11 @@ class Game extends Component {
       userInput: [],
       disableControls: true,
       currentLevel: 0,
-      padColor: 0,
+      highlightPad: -1,
+      // classHighlight: "",
     }
-
-    this.winnerCount = 3;
+    //this.pads =["pad0", "pad1", "pad2", "pad3"];
+    this.winnerCount = 20;
   }
 
   toggleOnOffButton() {
@@ -46,24 +47,28 @@ class Game extends Component {
   }
 
   async handlePadClick(num) {
+
     let newCount = this.state.currentCount + 1;
     const isCorrectPad = await this.checkCorrectPad(num, newCount);
     if(isCorrectPad){
 
         if(this.finishCycle(newCount)) {
-
-          this.addToPattern();
+          var newPattern = this.state.currentPattern.slice();
+          this.addToPattern(newPattern);
         }
 
     }
   }
 
   async checkCorrectPad(num, newCount) {
+    this.setState({
+      disableControls: true,
+    })
     var audioPlayer = new Audio();
     var file=[];
     if (parseInt(num, 10) !== this.state.currentPattern[this.state.currentCount]) {
       file = ["http://www.wavsource.com/snds_2017-07-30_6786517629734627/sfx/thunk.wav"];
-      await this.playList(audioPlayer, file);
+      await this.playList(audioPlayer, file, null);
 
       if(this.state.strict) {
         this.setState({
@@ -83,13 +88,13 @@ class Game extends Component {
           files.push(soundTracks[this.state.currentPattern[i]]);
         }
 
-        await this.playList(audioPlayer, files);
+        await this.playList(audioPlayer, files, this.state.currentPattern);
       }
 
       return false;
     } else {
       file = [soundTracks[num]];
-      await this.playList(audioPlayer, file);
+      await this.playList(audioPlayer, file, null);
       this.setState({
         currentCount: newCount,
       })
@@ -97,11 +102,36 @@ class Game extends Component {
     }
   }
 
-  async playList (audioPlayer, file) {
+  async playList (audioPlayer, file, highlightPadSequence) {
 
       for (let i = 0; i < file.length; i++) {
+        if(highlightPadSequence !== null) {
+
+          let nextPad = highlightPadSequence[i];
+
+          this.setState({
+            highlightPad: nextPad,
+          })
+        }
+
         await this.playMusic(audioPlayer, file[i]);
+
+        this.setState({
+          highlightPad: -1,
+          disableControls: false,
+        })
+
+        await this.setTimeoutPromise();
+
+
+        // if(highlight !== null) {
+        //   let currentColor = this.pads[highlight[i]];
+        //   await this.toggle(currentColor);
+        // }
+
       }
+
+
 
 
   };
@@ -111,7 +141,14 @@ class Game extends Component {
       audioPlayer.src = file;
       audioPlayer.addEventListener('ended', () => resolve(true));
       audioPlayer.play();
+
     })
+  }
+
+  setTimeoutPromise() {
+    return new Promise(function(resolve) {
+        setTimeout(resolve, 200);
+    });
   }
 
   finishCycle(newCount) {
@@ -135,37 +172,38 @@ class Game extends Component {
     }
   }
 
-  addToPattern() {
+  addToPattern(newPattern) {
 
     var nextPadToClick = Math.floor(Math.random() * 4);
-    let updatedPattern = this.state.currentPattern.slice();
-    updatedPattern.push(nextPadToClick);
+    newPattern.push(nextPadToClick);
 
 
 
     this.setState({
-      currentPattern: updatedPattern,
+      currentPattern: newPattern,
 
     })
 
     var files = [];
-    for (var i = 0; i < updatedPattern.length; i++) {
-      files.push(soundTracks[updatedPattern[i]]);
+    for (var i = 0; i < newPattern.length; i++) {
+      files.push(soundTracks[newPattern[i]]);
     }
 
     var audioPlayer = new Audio();
 
-    this.playList(audioPlayer, files);
+    this.playList(audioPlayer, files, newPattern);
 
   }
 
   startGame() {
     var newPattern = [];
+    var newLevel = 0;
     this.setState({
       currentPattern: newPattern,
+      currentLevel: newLevel,
     })
 
-    this.addToPattern();
+    this.addToPattern(newPattern);
   }
 
   toggleStrict() {
@@ -175,21 +213,43 @@ class Game extends Component {
     })
   }
 
-  changeColor(num) {
-    let newColor;
-
-    if(this.state.padColor === 0) {
-      newColor = 1;
+  isHighlightOn() {
+    if(this.state.highlightOn) {
+      return 1;
     } else {
-      newColor = 0;
+      return 0;
     }
-
-    this.setState({
-      padColor: newColor,
-    })
-
-    return padColor[num[newColor]];
   }
+//   async toggle(str) {
+//       await this.toggleHighlight(str);
+//       setTimeout(this.toggleHighlight.bind(this, "highlight"), 1000);
+//   }
+//
+// //toggle between highlight and no highlight
+//   toggleHighlight(str) {
+//     return new Promise( resolve => {
+//       if(str.includes("highlight")) {
+//         str = str.replace(/highlight[0-9]/,"");
+//       } else {
+//         if(str.includes("pad0")) {
+//           str = "highlight0";
+//         } else if(str.includes("pad1")) {
+//           str = "highlight1";
+//         } else if(str.includes("pad2")) {
+//           str = "highlight2";
+//         } else if(str.includes("pad3")) {
+//           str = "highlight3";
+//         }
+//       }
+//
+//       resolve(
+//         this.setState({
+//           classHighlight: str,
+//         })
+//       )
+//     })
+//
+//   }
 
   render() {
     console.log(this.state.currentPattern);
@@ -199,14 +259,16 @@ class Game extends Component {
         <div className="mainContainer">
           <h1>Simon Says</h1>
           <Board className="boardContainer" onClick={this.handlePadClick.bind(this)}
-                                            padColor={this.changeColor.bind(this)}
-                                            disableControls={this.state.disableControls}/>
+                                            disableControls={this.state.disableControls}
+                                            highlightPad={this.state.highlightPad}/>
+
           <ControlPanel toggleOnOffButton={this.toggleOnOffButton.bind(this)}
                         enableControls={this.state.disableControls}
                         gameState={this.state.gameState}
                         startGame={this.startGame.bind(this)}
                         toggleStrict={this.toggleStrict.bind(this)}
-                        currentLevel={this.state.currentLevel}/>
+                        currentLevel={this.state.currentLevel}
+                        />
         </div>
 
       </div>
@@ -219,7 +281,7 @@ const soundTracks = ["https://s3.amazonaws.com/freecodecamp/simonSound1.mp3",
                      "https://s3.amazonaws.com/freecodecamp/simonSound3.mp3",
                      "https://s3.amazonaws.com/freecodecamp/simonSound4.mp3"];
 
-const padColor = [["#ff4793", "#fa0067"],[],[],[]];
+//const padColor = [["#ff4793","#fa0067"],["#ffb437","#ffa104"],["#47ffb3","#38cc8f"],["#4793ff","#3875cc"]];
 
 
 export default Game;

@@ -3,31 +3,50 @@ import './Game.css';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 
 
+
 function Pad(props) {
-  return (
-    <button
-      id={props.id}
-      className="btn pad"
-      style={{backgroundColor:props.color}}
-      value={props.key}
-      onClick={props.onClick}
-      disabled={props.disableControls}
-    />
-  );
+
+      return (
+        <button
+          id={props.id}
+          className="btn pad"
+          style={{backgroundColor: props.color}}
+          onClick={props.onClick}
+          disabled={props.disableControls}
+        />
+      );
+
+
+
+
 }
 
 export class Board extends Component {
   render() {
+    const colorCollection = [["#fa0067", "#ff4793"],["#ffa104", "#ffb437"],["#38cc8f", "#47ffb3"],["#3875cc", "#4793ff"]];
+
+    let topLeftId = "pad0";
+    let topRightId = "pad1";
+    let bottomLeftId = "pad2";
+    let bottomRightId = "pad3";
+
+    // if(this.props.classHighlight.length > 0) {
+    //   var addId = "-" + this.props.classHighlight;
+    //   topLeftId += addId;
+    //   topRightId += addId;
+    //   bottomLeftId += addId;
+    //   bottomRightId += addId;
+    // }
 
     return (
       <div>
       <div >
-        <Pad color="#ff4793" id="pad0" onClick={() => this.props.onClick("0")} disableControls={this.props.disableControls}/>
-        <Pad color="#ffb437" id="pad1" onClick={() => this.props.onClick("1")} disableControls={this.props.disableControls}/>
+        <Pad value="0" id={topLeftId} color={this.props.highlightPad === 0 ? colorCollection[0][1] : colorCollection[0][0]} onClick={() => this.props.onClick("0")} disableControls={this.props.disableControls}/>
+        <Pad value="1" id={topRightId} color={this.props.highlightPad === 1 ? colorCollection[1][1] : colorCollection[1][0]} onClick={() => this.props.onClick("1")} disableControls={this.props.disableControls}/>
         </div>
         <div>
-        <Pad color="#47ffb3" id="pad2" onClick={() => this.props.onClick("2")} disableControls={this.props.disableControls}/>
-        <Pad color="#4793ff" id="pad3" onClick={() => this.props.onClick("3")} disableControls={this.props.disableControls}/>
+        <Pad value="2" id={bottomLeftId} color={this.props.highlightPad === 2 ? colorCollection[2][1] : colorCollection[2][0]} onClick={() => this.props.onClick("2")} disableControls={this.props.disableControls}/>
+        <Pad value="3" id={bottomRightId} color={this.props.highlightPad === 3 ? colorCollection[3][1] : colorCollection[3][0]} onClick={() => this.props.onClick("3")} disableControls={this.props.disableControls}/>
         </div>
       </div>
       // <section>

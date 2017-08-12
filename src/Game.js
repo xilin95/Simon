@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './Game.css';
 import {Board} from './Board.js';
 import {ControlPanel} from './ControlPanel.js';
-import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 class Game extends Component {
@@ -17,7 +17,7 @@ class Game extends Component {
       disableControls: true,
       currentLevel: 0,
       highlightPad: -1,
-  
+
     }
 
     this.winnerCount = 20;

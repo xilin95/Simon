@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './Game.css';
-import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function StartButton(props) {
   return (
